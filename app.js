@@ -1004,7 +1004,7 @@ async function predict(imageData) {
     console.log(model);
     // Make and format the predications
     const output = model.predict(img);
-    output.Print();
+    console.log(output);
     // Save predictions on the component
     predictions = Array.from(output.dataSync());
   });
