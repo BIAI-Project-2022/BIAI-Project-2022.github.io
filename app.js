@@ -898,9 +898,7 @@ let predictions;
 loadModel();
 
 async function loadModel() {
-  model = await tf.loadLayersModel(
-    "https://github.com/BIAI-Project-2022/Kanji-recognizer/tree/presentation-branch/DRAW-CANVAS/tfjs_file/model.json"
-  );
+  model = await tf.loadLayersModel("tfjs_file/model.json");
 }
 
 function change_color(element) {
