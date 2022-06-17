@@ -984,9 +984,12 @@ function Clear() {
 }
 
 function Recognize() {
-  const imageData = context
-    .getImageData(0, 0, window.innerHeight * 0.6, window.innerHeight * 0.6)
-    .resizeBilinear([127, 128]);
+  const imageData = context.getImageData(
+    0,
+    0,
+    window.innerHeight * 0.6,
+    window.innerHeight * 0.6
+  );
   predict(imageData).then(alert);
   console.log(predictions);
 }
@@ -994,7 +997,7 @@ function Recognize() {
 async function predict(imageData) {
   await tf.tidy(() => {
     // Convert the canvas pixels to a Tensor of the matching shape
-    let img = tf.browser.fromPixels(imageData, 1);
+    let img = tf.browser.fromPixels(imageData, 1).resizeBilinear([127, 128]);
     img = img.reshape([1, 127, 128, 1]);
     img = tf.cast(img, "float32");
 
