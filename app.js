@@ -985,17 +985,16 @@ function Clear() {
 }
 
 function Recognize() {
-  // imageData = context.getImageData(
-  //   0,
-  //   0,
-  //   window.innerHeight * 0.6,
-  //   window.innerHeight * 0.6
-  // );
   //let image = document.getElementById("image");
 
   //context.drawImage(image, 0, 0);
 
-  imageData = context.getImageData(0, 0, 127, 128);
+  imageData = context.getImageData(
+    0,
+    0,
+    window.innerHeight * 0.6,
+    window.innerHeight * 0.6
+  );
 
   predict(imageData).then(alert);
   console.log(predictions);
@@ -1005,13 +1004,13 @@ async function predict(imageData) {
   await tf.tidy(() => {
     // Convert the canvas pixels to a Tensor of the matching shape
     let img = tf.browser
-      .fromPixels(imageData, 1)
+      .fromPixels(imageData, 3)
       .resizeBilinear([64, 64])
       .mean(2)
       .toFloat()
       .expandDims(0)
       .expandDims(-1);
-    img = img.reshape([1, 64, 64, 1]);
+    //img = img.reshape([1, 64, 64, 1]);
     img = tf.cast(img, "float32").div(tf.scalar(255));
 
     console.log(model);
