@@ -1021,9 +1021,12 @@ async function predict(imageData) {
   });
 }
 
-var download = function () {
-  var link = document.createElement("a");
-  link.download = "filename.png";
-  link.href = document.getElementById("canvas").toDataURL();
-  link.click();
+var download = function (e) {
+  let canvasUrl = canvas.toDataURL("image/jpeg", 0.5);
+  console.log(canvasUrl);
+  const createEl = document.createElement("a");
+  createEl.href = canvasUrl;
+  createEl.download = "download-this-canvas";
+  createEl.click();
+  createEl.remove();
 };
