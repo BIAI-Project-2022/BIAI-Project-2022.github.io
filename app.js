@@ -1003,8 +1003,8 @@ function Recognize() {
 async function predict(imageData) {
   await tf.tidy(() => {
     // Convert the canvas pixels to a Tensor of the matching shape
-    let img = tf.browser.fromPixels(imageData, 1).resizeBilinear([127, 128]);
-    img = img.reshape([1, 127, 128, 1]);
+    let img = tf.browser.fromPixels(imageData, 1).resizeBilinear([64, 64]);
+    img = img.reshape([1, 64, 64, 1]);
     img = tf.cast(img, "float32");
 
     console.log(model);
