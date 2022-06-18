@@ -994,8 +994,8 @@ function Recognize() {
   const image = new Image();
   image.src = "filename/jpeg";
   image.onload = () => {
-    ctx.drawImage(image, 0, 0);
-    imageData = ctx.getImageData(0, 0, 127, 128);
+    context.drawImage(image, 0, 0);
+    imageData = context.getImageData(0, 0, 127, 128);
   };
   predict(imageData).then(alert);
   console.log(predictions);
