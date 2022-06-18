@@ -884,12 +884,12 @@ let canvas = document.getElementById("canvas");
 canvas.width = window.innerHeight * 0.6;
 canvas.height = window.innerHeight * 0.6;
 let context = canvas.getContext("2d");
-context.fillStyle = "white";
+context.fillStyle = "black";
 context.fillRect(0, 0, canvas.width, canvas.height);
 let restore_array = [];
 let start_index = -1;
-let stroke_color = "black";
-let stroke_width = "2";
+let stroke_color = "white";
+let stroke_width = "10";
 let is_drawing = false;
 
 let model;
@@ -992,11 +992,10 @@ function Recognize() {
   //   window.innerHeight * 0.6
   // );
   //let image = document.getElementById("image");
-  console.log(image);
+
   //context.drawImage(image, 0, 0);
-  ctx.filter = "invert(1)";
+
   imageData = context.getImageData(0, 0, 127, 128);
-  ctx.filter = "invert(1)";
 
   predict(imageData).then(alert);
   console.log(predictions);
@@ -1010,7 +1009,8 @@ async function predict(imageData) {
       .resizeBilinear([64, 64])
       .mean(2)
       .toFloat()
-      .expandDims(2);
+      .expandDims(0)
+      .expandDims(-1);
     img = img.reshape([1, 64, 64, 1]);
     img = tf.cast(img, "float32").div(tf.scalar(255));
 
