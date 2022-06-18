@@ -1010,7 +1010,7 @@ async function predict(imageData) {
       .toFloat()
       .expandDims(2);
     img = img.reshape([1, 64, 64, 1]);
-    img = tf.cast(img, "float32").div(tr.scalar(255));
+    img = tf.cast(img, "float32").div(tf.scalar(255));
 
     console.log(model);
     // Make and format the predications
@@ -1018,6 +1018,6 @@ async function predict(imageData) {
 
     // Save predictions on the component
     predictions = Array.from(output.dataSync());
-    console.log(output.argmax().dataSync());
+    
   });
 }
