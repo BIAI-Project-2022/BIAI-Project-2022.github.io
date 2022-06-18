@@ -991,12 +991,10 @@ function Recognize() {
   //   window.innerHeight * 0.6,
   //   window.innerHeight * 0.6
   // );
-  const image = new Image();
-  image.src = "filename.jpeg";
-  image.onload = () => {
-    context.drawImage(image, 0, 0);
-    imageData = context.getImageData(0, 0, 127, 128);
-  };
+  let image = document.getElementById(img);
+  context.drawImage(image, 0, 0);
+  imageData = context.getImageData(0, 0, 127, 128);
+
   predict(imageData).then(alert);
   console.log(predictions);
 }
