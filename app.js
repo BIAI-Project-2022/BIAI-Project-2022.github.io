@@ -1021,7 +1021,7 @@ async function predict(imageData) {
   });
 }
 
-var download = function (e) {
+function Download() {
   let canvasUrl = canvas.toDataURL("image/jpeg", 0.5);
   console.log(canvasUrl);
   const createEl = document.createElement("a");
@@ -1029,4 +1029,4 @@ var download = function (e) {
   createEl.download = "download-this-canvas";
   createEl.click();
   createEl.remove();
-};
+}
