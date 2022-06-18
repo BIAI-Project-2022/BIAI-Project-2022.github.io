@@ -992,6 +992,7 @@ function Recognize() {
   //   window.innerHeight * 0.6
   // );
   let image = document.getElementById("img");
+  console.log(image);
   context.drawImage(image, 0, 0);
   imageData = context.getImageData(0, 0, 127, 128);
 
