@@ -994,7 +994,9 @@ function Recognize() {
   let image = document.getElementById("image");
   console.log(image);
   context.drawImage(image, 0, 0);
+  ctx.filter = "invert(1)";
   imageData = context.getImageData(0, 0, 127, 128);
+  ctx.filter = "invert(1)";
 
   predict(imageData).then(alert);
   console.log(predictions);
