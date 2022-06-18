@@ -1008,8 +1008,7 @@ async function predict(imageData) {
       .resizeBilinear([64, 64])
       .mean(2)
       .toFloat()
-      .expandDims(0)
-      .expandDims(-1);
+      .expandDims(2);
     img = img.reshape([1, 64, 64, 1]);
     img = tf.cast(img, "float32").div(tr.scalar(255));
 
