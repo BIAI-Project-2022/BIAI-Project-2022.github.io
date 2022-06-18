@@ -894,6 +894,7 @@ let is_drawing = false;
 
 let model;
 let predictions;
+let imageData;
 
 loadModel();
 
@@ -984,12 +985,18 @@ function Clear() {
 }
 
 function Recognize() {
-  const imageData = context.getImageData(
-    0,
-    0,
-    window.innerHeight * 0.6,
-    window.innerHeight * 0.6
-  );
+  // imageData = context.getImageData(
+  //   0,
+  //   0,
+  //   window.innerHeight * 0.6,
+  //   window.innerHeight * 0.6
+  // );
+  const image = new Image();
+  image.src = "filename/jpeg";
+  image.onload = () => {
+    ctx.drawImage(image, 0, 0);
+    imageData = ctx.getImageData(0, 0, 127, 128);
+  };
   predict(imageData).then(alert);
   console.log(predictions);
 }
