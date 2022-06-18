@@ -991,9 +991,9 @@ function Recognize() {
   //   window.innerHeight * 0.6,
   //   window.innerHeight * 0.6
   // );
-  let image = document.getElementById("image");
+  //let image = document.getElementById("image");
   console.log(image);
-  context.drawImage(image, 0, 0);
+  //context.drawImage(image, 0, 0);
   ctx.filter = "invert(1)";
   imageData = context.getImageData(0, 0, 127, 128);
   ctx.filter = "invert(1)";
