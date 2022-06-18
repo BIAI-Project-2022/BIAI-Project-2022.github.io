@@ -1005,7 +1005,7 @@ async function predict(imageData) {
     // Convert the canvas pixels to a Tensor of the matching shape
     let img = tf.browser.fromPixels(imageData, 1).resizeBilinear([64, 64]);
     img = img.reshape([1, 64, 64, 1]);
-    img = tf.cast(img, "float32");
+    img = tf.cast(img / 255, "float32");
 
     console.log(model);
     // Make and format the predications
