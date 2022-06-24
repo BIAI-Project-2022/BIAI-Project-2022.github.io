@@ -615,7 +615,7 @@ context.fillRect(0, 0, canvas.width, canvas.height);
 let restore_array = [];
 let start_index = -1;
 let stroke_color = "white";
-let stroke_width = "10";
+let stroke_width = "16";
 let is_drawing = false;
 
 let model;
@@ -703,7 +703,7 @@ function Restore() {
 }
 
 function Clear() {
-  context.fillStyle = "black";
+  context.fillStyle = "white";
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.fillRect(0, 0, canvas.width, canvas.height);
   restore_array = [];
@@ -764,8 +764,9 @@ function Download() {
 function getMaxes(arr, n) {
   let outArr = [];
   for (i = 0; i < n; i++) {
-    const max = data.reduce((prev, current, index) =>
-      prev.y > current.y && !outArr.contains(index) ? prev : current
+    const max = arr.reduce(
+      (m, c, i, arr) => (c > arr[m] && !outArr.includes(i) ? i : m),
+      0
     );
     outArr.push(max);
   }
