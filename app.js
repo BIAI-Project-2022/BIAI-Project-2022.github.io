@@ -782,9 +782,14 @@ function display(arrX, arrY) {
     output.removeChild(child);
     child = output.lastElementChild;
   }
-  for (i = 0; i < arrX.length(); i++) {
+  for (i = 0; i < arrX.length; i++) {
     var p = document.createElement("h2");
-    p.textContent = `${label(arrX(i))}: ${arrY(arrX(i).toFixed(2))}%`;
+    p.textContent = `${label[arrX[i]]}: ${arrY[arrX[i]].toFixed(2)}%`;
+    p.style.color = "black";
+    p.style.backgroundColor = "white";
+    p.style.display = "inline-block";
+    p.style.padding = "5px";
+    p.style.paddingRight = "10px";
     output.appendChild(p);
   }
 }
