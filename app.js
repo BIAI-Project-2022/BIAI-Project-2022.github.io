@@ -703,7 +703,7 @@ function Restore() {
 }
 
 function Clear() {
-  context.fillStyle = "white";
+  context.fillStyle = "black";
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.fillRect(0, 0, canvas.width, canvas.height);
   restore_array = [];
@@ -725,7 +725,9 @@ function Recognize() {
   predict(imageData).then(alert);
   console.log(predictions);
   console.log(label[argMax(predictions)]);
-  console.log(getMaxes(predictions, 5));
+  maxes = getMaxes(predictions, 5);
+  console.log(maxes);
+  display(maxes, predictions);
 }
 
 function argMax(array) {
@@ -771,4 +773,18 @@ function getMaxes(arr, n) {
     outArr.push(max);
   }
   return outArr;
+}
+
+function display(arrX, arrY) {
+  let output = document.getElementById("output");
+  var child = output.lastElementChild;
+  while (child) {
+    output.removeChild(child);
+    child = output.lastElementChild;
+  }
+  for (i = 0; i < arrX.length(); i++) {
+    var p = document.createElement("h2");
+    p.textContent = `${label(arrX(i))}: ${arrY(arrX(i).toFixed(2))}%`;
+    output.appendChild(p);
+  }
 }
