@@ -625,7 +625,7 @@ let imageData;
 loadModel();
 
 async function loadModel() {
-  model = await tf.loadLayersModel("tfjs_file/model.json");
+  model = await tf.loadLayersModel("tfjs_file/kanji/model.json");
 }
 
 function change_color(element) {
