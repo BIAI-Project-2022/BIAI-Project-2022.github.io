@@ -1030,8 +1030,8 @@ loadModel();
 
 async function loadModel() {
   modelKanji = await tf.loadLayersModel("tfjs_file/kanji/model.json");
-  modelkatakana = await tf.loadLayersModel("tfjs_file/katakana/model.json");
-  modelhiragana = await tf.loadLayersModel("tfjs_file/hiragana/model.json");
+  modelKatakana = await tf.loadLayersModel("tfjs_file/katakana/model.json");
+  modelHiragana = await tf.loadLayersModel("tfjs_file/hiragana/model.json");
 }
 
 function change_color(element) {
