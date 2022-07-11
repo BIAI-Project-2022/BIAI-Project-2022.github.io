@@ -1,4 +1,129 @@
-label = [
+labelHiragana = [
+  "あ",
+  "い",
+  "う",
+  "え",
+  "お",
+  "か",
+  "が",
+  "き",
+  "ぎ",
+  "く",
+  "ぐ",
+  "け",
+  "げ",
+  "こ",
+  "ご",
+  "さ",
+  "ざ",
+  "し",
+  "じ",
+  "す",
+  "ず",
+  "せ",
+  "ぜ",
+  "そ",
+  "ぞ",
+  "た",
+  "だ",
+  "ち",
+  "ぢ",
+  "つ",
+  "づ",
+  "て",
+  "で",
+  "と",
+  "ど",
+  "な",
+  "に",
+  "ぬ",
+  "ね",
+  "の",
+  "は",
+  "ば",
+  "ぱ",
+  "ひ",
+  "び",
+  "ぴ",
+  "ふ",
+  "ぶ",
+  "ぷ",
+  "へ",
+  "べ",
+  "ぺ",
+  "ほ",
+  "ぼ",
+  "ぽ",
+  "ま",
+  "み",
+  "む",
+  "め",
+  "も",
+  "や",
+  "ゆ",
+  "よ",
+  "ら",
+  "り",
+  "る",
+  "れ",
+  "ろ",
+  "わ",
+  "を",
+  "ん",
+];
+
+labelKatakana = [
+  "ア",
+  "イ",
+  "ウ",
+  "エ",
+  "オ",
+  "カ",
+  "キ",
+  "ク",
+  "ケ",
+  "コ",
+  "サ",
+  "シ",
+  "ス",
+  "セ",
+  "ソ",
+  "タ",
+  "チ",
+  "ツ",
+  "テ",
+  "ト",
+  "ナ",
+  "ニ",
+  "ヌ",
+  "ネ",
+  "ノ",
+  "ハ",
+  "ヒ",
+  "フ",
+  "ヘ",
+  "ホ",
+  "マ",
+  "ミ",
+  "ム",
+  "メ",
+  "モ",
+  "ヤ",
+  "ユ",
+  "ヨ",
+  "ラ",
+  "リ",
+  "ル",
+  "レ",
+  "ロ",
+  "ワ",
+  "ヰ",
+  "ヱ",
+  "ヲ",
+  "ン",
+];
+
+labelKanji = [
   "愛",
   "委",
   "壱",
@@ -892,14 +1017,21 @@ let stroke_color = "white";
 let stroke_width = "16";
 let is_drawing = false;
 
-let model;
+let modelKanji, modelHiragana, modelKatakana;
 let predictions;
 let imageData;
 
+let mode = document.getElementById("mode");
+const modes = ["ひらがな", "カタカナ", "漢字"];
+mode.textContent = modes[2];
+
+currMode = 2;
 loadModel();
 
 async function loadModel() {
-  model = await tf.loadLayersModel("tfjs_file/kanji/model.json");
+  modelKanji = await tf.loadLayersModel("tfjs_file/kanji/model.json");
+  modelkatakana = await tf.loadLayersModel("tfjs_file/katakana/model.json");
+  modelhiragana = await tf.loadLayersModel("tfjs_file/hiragana/model.json");
 }
 
 function change_color(element) {
@@ -996,9 +1128,19 @@ function Recognize() {
     window.innerHeight * 0.6
   );
 
-  predict(imageData).then(alert);
+  predict(imageData);
   console.log(predictions);
-  console.log(label[argMax(predictions)]);
+  switch (currMode) {
+    case 0:
+      console.log(labelHiragana[argMax(predictions)]);
+      break;
+    case 1:
+      console.log(labelKatakana[argMax(predictions)]);
+      break;
+    case 2:
+      console.log(labelKanji[argMax(predictions)]);
+      break;
+  }
   maxes = getMaxes(predictions, 5);
   console.log(maxes);
   display(maxes, predictions);
@@ -1020,7 +1162,18 @@ async function predict(imageData) {
     img = img.reshape([1, 64, 64, 1]);
     img = tf.cast(img, "float32").div(tf.scalar(255));
     // Make and format the predications
-    const output = model.predict(img);
+    let output;
+    switch (currMode) {
+      case 0:
+        output = modelHiragana.predict(img);
+        break;
+      case 1:
+        output = modelKatakana.predict(img);
+        break;
+      case 2:
+        output = modelKanji.predict(img);
+        break;
+    }
 
     // Save predictions on the component
     predictions = Array.from(output.dataSync());
@@ -1058,7 +1211,22 @@ function display(arrX, arrY) {
   }
   for (i = 0; i < arrX.length; i++) {
     var p = document.createElement("h2");
-    p.textContent = `${label[arrX[i]]}: ${arrY[arrX[i]].toFixed(2)}%`;
+    switch (currMode) {
+      case 0:
+        p.textContent = `${labelHiragana[arrX[i]]}: ${arrY[arrX[i]].toFixed(
+          2
+        )}%`;
+        break;
+      case 1:
+        p.textContent = `${labelKatakana[arrX[i]]}: ${arrY[arrX[i]].toFixed(
+          2
+        )}%`;
+        break;
+      case 2:
+        p.textContent = `${labelKanji[arrX[i]]}: ${arrY[arrX[i]].toFixed(2)}%`;
+        break;
+    }
+
     p.style.color = "black";
     p.style.backgroundColor = "white";
     p.style.display = "inline-block";
@@ -1066,4 +1234,9 @@ function display(arrX, arrY) {
     p.style.paddingRight = "10px";
     output.appendChild(p);
   }
+}
+
+function switchMode() {
+  currMode = (currMode + 1) % 3;
+  mode.textContent = modes[currMode];
 }
