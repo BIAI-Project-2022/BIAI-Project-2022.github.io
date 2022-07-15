@@ -1193,10 +1193,13 @@ function Download() {
 function getMaxes(arr, n) {
   let outArr = [];
   for (i = 0; i < n; i++) {
+    z = 0;
+    while (!outArr.includes(z)) z++;
     const max = arr.reduce(
       (m, c, i, arr) => (c > arr[m] && !outArr.includes(i) ? i : m),
-      0
+      z
     );
+
     outArr.push(max);
   }
   return outArr;
